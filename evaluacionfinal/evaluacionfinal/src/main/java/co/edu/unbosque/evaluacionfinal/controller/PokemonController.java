@@ -16,13 +16,34 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@RequestMapping("/external/pokemon") 
+@RequestMapping("/external/pokemon")
 @Tag(name = "PokeAPI", description = "Consulta de pokémon usando la PokeAPI externa")
 @SecurityRequirement(name = "bearerAuth")
 public class PokemonController {
 
     @Autowired
     private PokemonService pokemonService;
+
+    @Operation(summary = "Filtrar pokémon",
+            description = "1 = 50 más fuertes (suma de estadísticas base); 2 a 19 = tipo (agua, fuego, planta, etc.).")
+    @GetMapping("/filtro/{opcion}")
+    public ResponseEntity<?> filtrar(
+            @Parameter(description = "Opción del filtro (1 a 19)", example = "2")
+            @PathVariable int opcion) {
+
+        try {
+
+            return new ResponseEntity<>(pokemonService.buscarPorFiltro(opcion), HttpStatus.OK);
+
+        } catch (IllegalArgumentException e) {
+
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+
+        } catch (Exception e) {
+
+            return new ResponseEntity<>("Error al consultar la PokeAPI", HttpStatus.BAD_GATEWAY);
+        }
+    }
 
     @Operation(summary = "Buscar un pokémon por nombre",
             description = "Devuelve id, tipos, habilidades, estadísticas, medidas e imagen del pokémon.")
