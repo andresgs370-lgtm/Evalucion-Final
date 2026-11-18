@@ -49,6 +49,7 @@ public class SecurityConfig {
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userDetailsService);
+        // CORREGIDO: se eliminó el cast a UserDetailsPasswordService (era el que causaba el error)
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
