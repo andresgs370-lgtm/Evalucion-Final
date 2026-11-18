@@ -7,7 +7,6 @@
           (click)="cambiarTipo('verdura')">Verduras</button>
 </div>
 
-<!-- Formulario crear / editar -->
 <div class="card mb-3">
   <div class="card-body">
     <h5>{{ editandoId == null ? 'Nueva' : 'Editar' }} {{ tipo }}</h5>
@@ -48,7 +47,6 @@
   <div class="alert alert-info">{{ mensaje }}</div>
 }
 
-<!-- Tabla con todos los datos y la foto -->
 <table class="table table-striped table-bordered bg-white align-middle">
   <thead class="table-success">
     <tr><th>ID</th><th>Foto</th><th>Nombre</th><th>Cantidad</th><th>Precio</th><th>URL imagen</th><th>Acciones</th></tr>

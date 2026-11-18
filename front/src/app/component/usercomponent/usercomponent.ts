@@ -3,8 +3,8 @@ import { forkJoin } from 'rxjs';
 import { Producto, Productoservice } from '../../services/productoservice';
 
 interface ItemTienda extends Producto {
-  tipo: string;      // 'fruta' o 'verdura'
-  aComprar: number;  // cantidad que el cliente quiere
+  tipo: string;
+  aComprar: number;
 }
 
 @Component({
@@ -24,7 +24,6 @@ export class Usercomponent implements OnInit {
     this.cargar();
   }
 
-  // Trae frutas y verduras y las junta en una sola lista general
   cargar() {
     forkJoin({
       frutas: this.productoservice.getAll('fruta'),

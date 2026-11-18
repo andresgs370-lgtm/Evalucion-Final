@@ -1,0 +1,84 @@
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: #1e293b;
+  background: #eff6ff;
+}
+
+app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+app-paginaprincipalcomponent {
+  flex: 1;
+}
+
+.navbar-plantilla {
+  background: #1e3a8a;
+}
+
+.navbar-plantilla .navbar-brand,
+.navbar-plantilla .nav-link {
+  color: #fff;
+}
+
+.navbar-plantilla .nav-link:hover,
+.navbar-plantilla .nav-link.active {
+  color: #bfdbfe;
+}
+
+.hero-plantilla {
+  background: linear-gradient(135deg, #3b82f6, #1e3a8a);
+  color: #fff;
+  padding: 90px 0;
+  text-align: center;
+}
+
+.hero-plantilla h1 {
+  font-weight: 700;
+}
+
+.seccion-plantilla {
+  padding: 60px 0;
+}
+
+.tarjeta-plantilla {
+  border-radius: 10px;
+  padding: 24px;
+  background: #fff;
+  height: 100%;
+}
+
+.btn-primary {
+  --bs-btn-bg: #2563eb;
+  --bs-btn-border-color: #2563eb;
+  --bs-btn-hover-bg: #1e40af;
+  --bs-btn-hover-border-color: #1e40af;
+  --bs-btn-active-bg: #1e3a8a;
+  --bs-btn-active-border-color: #1e3a8a;
+}
+
+.footer-plantilla {
+  background: #172554;
+  color: #bfdbfe;
+  padding: 40px 0 20px;
+}
+
+.footer-plantilla a {
+  color: #bfdbfe;
+  text-decoration: none;
+}
+
+.footer-plantilla a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.footer-plantilla .footer-copy {
+  border-top: 1px solid #1e40af;
+  margin-top: 24px;
+  padding-top: 16px;
+  font-size: 0.875rem;
+  text-align: center;
+}

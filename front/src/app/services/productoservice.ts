@@ -10,7 +10,6 @@ export interface Producto {
   urlImagen: string;
 }
 
-// tipo = 'fruta' o 'verdura' -> mismo servicio para los dos productos
 @Injectable({ providedIn: 'root' })
 export class Productoservice {
   private apiurl = 'http://localhost:8080/';
