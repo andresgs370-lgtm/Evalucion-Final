@@ -1,13 +1,9 @@
-
-
 package co.edu.unbosque.evaluacionfinal.service;
 
-import java.util.ArrayList; 
 import java.util.List;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,17 +14,14 @@ import co.edu.unbosque.evaluacionfinal.repository.UserRepository;
 @Service
 public class UserService implements CRUDOperation<UserDTO> {
 
-	@Autowired
-	private UserRepository userRepo;
+	private final UserRepository userRepo;
+	private final ModelMapper modelMapper;
+	private final PasswordEncoder passwordEncoder;
 
-	@Autowired
-	private ModelMapper modelMapper;
-
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-
-	public UserService() {
-
+	public UserService(UserRepository userRepo, ModelMapper modelMapper, PasswordEncoder passwordEncoder) {
+		this.userRepo = userRepo;
+		this.modelMapper = modelMapper;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	@Override
@@ -38,7 +31,7 @@ public class UserService implements CRUDOperation<UserDTO> {
 
 	@Override
 	public boolean exist(Long id) {
-		return userRepo.existsById(id) ? true : false;
+		return userRepo.existsById(id);
 	}
 
 	@Override
@@ -46,25 +39,15 @@ public class UserService implements CRUDOperation<UserDTO> {
 		User entity = modelMapper.map(data, User.class);
 		if (findUsernameAlreadyTaken(entity)) {
 			return 1;
-		} else {
-			// Hash the password before saving
-			entity.setPassword(passwordEncoder.encode(entity.getPassword()));
-			userRepo.save(entity);
-			return 0;
 		}
+		entity.setPassword(passwordEncoder.encode(entity.getPassword()));
+		userRepo.save(entity);
+		return 0;
 	}
 
 	@Override
 	public List<UserDTO> getAll() {
-		List<User> entityList = userRepo.findAll();
-		List<UserDTO> dtoList = new ArrayList<>();
-		entityList.forEach((entity) -> {
-
-			UserDTO dto = modelMapper.map(entity, UserDTO.class);
-			dtoList.add(dto);
-		});
-
-		return dtoList;
+		return userRepo.findAll().stream().map(this::toDtoSinPassword).toList();
 	}
 
 	@Override
@@ -73,9 +56,8 @@ public class UserService implements CRUDOperation<UserDTO> {
 		if (found.isPresent()) {
 			userRepo.delete(found.get());
 			return 0;
-		} else {
-			return 1;
 		}
+		return 1;
 	}
 
 	public int deleteByUsername(String username) {
@@ -83,70 +65,50 @@ public class UserService implements CRUDOperation<UserDTO> {
 		if (found.isPresent()) {
 			userRepo.delete(found.get());
 			return 0;
-		} else {
-			return 1;
 		}
+		return 1;
 	}
 
 	@Override
 	public int updateById(Long id, UserDTO newData) {
 		Optional<User> found = userRepo.findById(id);
-		Optional<User> newFound = userRepo.findByUsername(newData.getUsername());
-
-		if (found.isPresent() && !newFound.isPresent()) {
-			User temp = found.get();
-			temp.setUsername(newData.getUsername());
-			// Hash the password before saving
-			temp.setPassword(passwordEncoder.encode(newData.getPassword()));
-			userRepo.save(temp);
-			return 0;
+		if (found.isEmpty()) {
+			return 2; // el usuario a actualizar no existe
 		}
-		if (found.isPresent() && newFound.isPresent()) {
-			return 1;
+		if (userRepo.findByUsername(newData.getUsername()).isPresent()) {
+			return 1; // el nuevo username ya está en uso
 		}
-		if (!found.isPresent()) {
-			return 2;
-		} else {
-			return 3;
-		}
+		User temp = found.get();
+		temp.setUsername(newData.getUsername());
+		temp.setPassword(passwordEncoder.encode(newData.getPassword()));
+		userRepo.save(temp);
+		return 0;
 	}
 
 	public UserDTO getById(Long id) {
-		Optional<User> found = userRepo.findById(id);
-		if (found.isPresent()) {
-			return modelMapper.map(found.get(), UserDTO.class);
-		} else {
-			return null;
-		}
+		return userRepo.findById(id).map(this::toDtoSinPassword).orElse(null);
 	}
 
 	public boolean findUsernameAlreadyTaken(User newUser) {
-		Optional<User> found = userRepo.findByUsername(newUser.getUsername());
-		if (found.isPresent()) {
-			return true;
-		} else {
-			return false;
-		}
+		return userRepo.findByUsername(newUser.getUsername()).isPresent();
 	}
 
 	public boolean findUsernameAlreadyTaken(String username) {
-		Optional<User> found = userRepo.findByUsername(username);
-		return found.isPresent();
+		return userRepo.findByUsername(username).isPresent();
 	}
 
 	public int validateCredentials(String username, String password) {
-		// Find user by username
 		Optional<User> userOpt = userRepo.findByUsername(username);
-
-		// Check if user exists and password matches
-		if (userOpt.isPresent()) {
-			User user = userOpt.get();
-			if (passwordEncoder.matches(password, user.getPassword())) {
-				return 0; // Success
-			}
+		if (userOpt.isPresent() && passwordEncoder.matches(password, userOpt.get().getPassword())) {
+			return 0; // credenciales correctas
 		}
-
-		return 1; // Invalid credentials
+		return 1; // credenciales inválidas
 	}
 
+	// Convierte a DTO y borra la contraseña (el hash nunca debe salir en una respuesta)
+	private UserDTO toDtoSinPassword(User entity) {
+		UserDTO dto = modelMapper.map(entity, UserDTO.class);
+		dto.setPassword(null);
+		return dto;
+	}
 }
