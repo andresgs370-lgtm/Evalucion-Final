@@ -3,6 +3,8 @@ package co.edu.unbosque.evaluacionfinal.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize; 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +19,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/external/pokemon") 
+@CrossOrigin(origins = "*")
 @Tag(name = "PokeAPI", description = "Consulta de pokémon usando la PokeAPI externa")
 @SecurityRequirement(name = "bearerAuth")
 public class PokemonController {
@@ -27,22 +30,20 @@ public class PokemonController {
     @Operation(summary = "Buscar un pokémon por nombre",
             description = "Devuelve id, tipos, habilidades, estadísticas, medidas e imagen del pokémon.")
     @GetMapping("/{nombre}")
+
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')") 
     public ResponseEntity<?> buscarPokemon(
             @Parameter(description = "Nombre del pokémon (ej: pikachu, charizard) o su número", example = "pikachu")
             @PathVariable String nombre) {
 
         try {
-
             PokemonDTO pokemon = pokemonService.buscarPokemon(nombre);
-
             return new ResponseEntity<>(pokemon, HttpStatus.OK);
 
         } catch (IllegalArgumentException e) {
-
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 
         } catch (Exception e) {
-
             return new ResponseEntity<>("Error al consultar la PokeAPI", HttpStatus.BAD_GATEWAY);
         }
     }
