@@ -44,7 +44,6 @@ public class LoadDatabase {
 				log.info("Preloading normal user");
 			}
 
-			// Productos iniciales de la tienda (la imagen se trae de Spoonacular)
 			if (frutaRepo.count() == 0) {
 				frutaRepo.save(new Fruta("Manzana", 50, 1200, spoon.buscarImagen("manzana")));
 				frutaRepo.save(new Fruta("Banano", 80, 500, spoon.buscarImagen("banano")));

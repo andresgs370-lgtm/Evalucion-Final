@@ -100,12 +100,11 @@ public class UserService implements CRUDOperation<UserDTO> {
 	public int validateCredentials(String username, String password) {
 		Optional<User> userOpt = userRepo.findByUsername(username);
 		if (userOpt.isPresent() && passwordEncoder.matches(password, userOpt.get().getPassword())) {
-			return 0; // credenciales correctas
+			return 0;
 		}
-		return 1; // credenciales inválidas
+		return 1; 
 	}
 
-	// Convierte a DTO y borra la contraseña (el hash nunca debe salir en una respuesta)
 	private UserDTO toDtoSinPassword(User entity) {
 		UserDTO dto = modelMapper.map(entity, UserDTO.class);
 		dto.setPassword(null);

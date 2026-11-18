@@ -2,9 +2,6 @@ package co.edu.unbosque.evaluacionfinal.exception;
 
 public class PasswordNotValidException extends Exception {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -1290628531913444044L;
 
 	public PasswordNotValidException() {

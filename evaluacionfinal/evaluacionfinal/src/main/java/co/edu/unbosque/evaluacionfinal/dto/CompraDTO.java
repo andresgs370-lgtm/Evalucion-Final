@@ -1,6 +1,4 @@
 package co.edu.unbosque.evaluacionfinal.dto;
-
-// Un item del carrito: tipo = "fruta" o "verdura", id del producto y cantidad a comprar
 public class CompraDTO {
 
 	private String tipo;

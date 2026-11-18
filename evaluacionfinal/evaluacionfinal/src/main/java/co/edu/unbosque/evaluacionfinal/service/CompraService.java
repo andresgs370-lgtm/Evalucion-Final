@@ -20,7 +20,6 @@ public class CompraService {
 		this.verduraService = verduraService;
 	}
 
-	// Valida todo el carrito, luego resta del inventario y devuelve el total
 	@Transactional
 	public double comprar(List<CompraDTO> carrito) {
 		if (carrito == null || carrito.isEmpty()) {
@@ -34,21 +33,24 @@ public class CompraService {
 			}
 			if ("fruta".equalsIgnoreCase(item.getTipo())) {
 				FrutaDTO f = frutaService.getById(item.getId());
-				if (f == null) throw new IllegalArgumentException("La fruta " + item.getId() + " no existe");
+				if (f == null)
+					throw new IllegalArgumentException("La fruta " + item.getId() + " no existe");
 				if (f.getCantidad() < item.getCantidad())
-					throw new IllegalArgumentException("No hay suficiente " + f.getNombre() + " (quedan " + f.getCantidad() + ")");
+					throw new IllegalArgumentException(
+							"No hay suficiente " + f.getNombre() + " (quedan " + f.getCantidad() + ")");
 				total += f.getPrecio() * item.getCantidad();
 			} else if ("verdura".equalsIgnoreCase(item.getTipo())) {
 				VerduraDTO v = verduraService.getById(item.getId());
-				if (v == null) throw new IllegalArgumentException("La verdura " + item.getId() + " no existe");
+				if (v == null)
+					throw new IllegalArgumentException("La verdura " + item.getId() + " no existe");
 				if (v.getCantidad() < item.getCantidad())
-					throw new IllegalArgumentException("No hay suficiente " + v.getNombre() + " (quedan " + v.getCantidad() + ")");
+					throw new IllegalArgumentException(
+							"No hay suficiente " + v.getNombre() + " (quedan " + v.getCantidad() + ")");
 				total += v.getPrecio() * item.getCantidad();
 			} else {
 				throw new IllegalArgumentException("Tipo inválido: " + item.getTipo() + " (use fruta o verdura)");
 			}
 		}
-		// 2. Restar del inventario general
 		for (CompraDTO item : carrito) {
 			if ("fruta".equalsIgnoreCase(item.getTipo())) {
 				frutaService.restarCantidad(item.getId(), item.getCantidad());

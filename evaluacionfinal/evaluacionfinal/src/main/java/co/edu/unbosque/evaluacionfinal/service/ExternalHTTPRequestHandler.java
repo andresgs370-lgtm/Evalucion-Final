@@ -58,7 +58,6 @@ public class ExternalHTTPRequestHandler {
         return response.body();
     }
 
-    // ---------- Métodos estáticos ----------
     private static HttpResponse<String> send(HttpRequest request) {
         try {
             return HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());

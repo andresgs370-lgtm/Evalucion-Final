@@ -16,11 +16,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-/**
- * Consume la API de Spoonacular para obtener la URL de la imagen de una fruta o verdura.
- * GET https://api.spoonacular.com/food/ingredients/search?query=apple&number=1&apiKey=KEY
- * Respuesta: "image": "apple.jpg"  ->  https://img.spoonacular.com/ingredients_250x250/apple.jpg
- */
 @Service
 public class SpoonacularService {
 
@@ -30,7 +25,6 @@ public class SpoonacularService {
 	private static final HttpClient HTTP_CLIENT = HttpClient.newBuilder()
 			.connectTimeout(Duration.ofSeconds(10)).build();
 
-	// Spoonacular está en inglés: traducimos los nombres más comunes
 	private static final Map<String, String> TRADUCCION = Map.ofEntries(
 			Map.entry("manzana", "apple"), Map.entry("banano", "banana"), Map.entry("banana", "banana"),
 			Map.entry("platano", "plantain"), Map.entry("pera", "pear"), Map.entry("uva", "grapes"),
