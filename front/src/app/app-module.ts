@@ -12,6 +12,7 @@ import { Registrocomponent } from './component/registrocomponent/registrocompone
 import { Logincomponent } from './component/logincomponent/logincomponent';
 import { Paiscomponent } from './component/paiscomponent/paiscomponent';
 import {Pokemonservice} from './services/pokemonservice';
+import { Registroservice } from './services/registroservice';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,7 @@ import {Pokemonservice} from './services/pokemonservice';
     Paiscomponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
-  providers: [provideBrowserGlobalErrorListeners(),Pokemonservice],
+  providers: [provideBrowserGlobalErrorListeners(),Pokemonservice, Registroservice],
   bootstrap: [App],
 })
 export class AppModule {}
