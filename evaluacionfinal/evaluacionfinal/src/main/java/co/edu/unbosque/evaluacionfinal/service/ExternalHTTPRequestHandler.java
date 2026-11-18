@@ -1,13 +1,15 @@
 package co.edu.unbosque.evaluacionfinal.service;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
+
+import org.springframework.stereotype.Component;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -17,6 +19,7 @@ import com.google.gson.reflect.TypeToken;
 
 import co.edu.unbosque.evaluacionfinal.dto.FactDTO;
 
+@Component
 public class ExternalHTTPRequestHandler {
 
     private static final HttpClient HTTP_CLIENT = HttpClient.newBuilder()
@@ -30,16 +33,33 @@ public class ExternalHTTPRequestHandler {
   
     private static final String API_KEY_ENV = "EXTERNAL_API_KEY";
 
-    private ExternalHTTPRequestHandler() {
+    public String doGet(String url) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .GET()
+                .uri(URI.create(url))
+                .header("Content-Type", "application/json")
+                .build();
+
+        HttpResponse<String> response = null;
+
+        try {
+            response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            Thread.currentThread().interrupt();
+        }
+
+        if (response == null || response.statusCode() != 200) {
+            System.err.println("Fallo al consumir la API o la respuesta fue nula.");
+            return null;
+        }
+
+        return response.body();
     }
 
-    public static void main(String[] args) {
-        System.out.println("//// GET ////");
-        FactDTO resp = doGetAndConvertToDto("https://uselessfacts.jsph.pl/api/v2/facts/random");
-        System.out.println(resp);
-    }
-
-  
+    // ---------- Métodos estáticos (versión de tu rama) ----------
     private static HttpResponse<String> send(HttpRequest request) {
         try {
             return HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
@@ -65,15 +85,10 @@ public class ExternalHTTPRequestHandler {
         }
     }
 
-   
-    public static String doGet(String url) {
+    public static String doGetAndParse(String url) {
         HttpResponse<String> response = send(baseRequest(url).GET().build());
         validarExito(response);
         return prettyPrintUsingGson(response.body());
-    }
-
-    public static String doGetAndParse(String url) {
-        return doGet(url);
     }
 
     public static String doGetWithHeaders(String url) {
@@ -94,7 +109,6 @@ public class ExternalHTTPRequestHandler {
         return fact;
     }
 
-    
     public static List<FactDTO> doGetAndConvertToDtoList(String url) {
         HttpResponse<String> response = send(baseRequest(url).GET().build());
         validarExito(response);
@@ -109,28 +123,3 @@ public class ExternalHTTPRequestHandler {
                 .POST(HttpRequest.BodyPublishers.ofString(json)).build());
         validarExito(response);
         return prettyPrintUsingGson(response.body());
-    }
-
-    public static String doPut(String url, String json) {
-        HttpResponse<String> response = send(baseRequest(url)
-                .header("Content-Type", "application/json")
-                .PUT(HttpRequest.BodyPublishers.ofString(json)).build());
-        validarExito(response);
-        return prettyPrintUsingGson(response.body());
-    }
-
-    public static String doDelete(String url) {
-        HttpResponse<String> response = send(baseRequest(url).DELETE().build());
-        validarExito(response);
-        return prettyPrintUsingGson(response.body());
-    }
-
-   
-    public static String prettyPrintUsingGson(String json) {
-        if (json == null || json.isBlank()) {
-            return "";
-        }
-        JsonElement element = JsonParser.parseString(json);
-        return GSON_PRETTY.toJson(element);
-    }
-}
