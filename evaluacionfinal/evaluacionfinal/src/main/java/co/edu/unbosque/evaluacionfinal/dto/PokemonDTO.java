@@ -6,6 +6,7 @@ import java.util.Map;
 public class PokemonDTO {
 
     private int id;
+    private String generacion;
     private String nombre;
     private double altura;        
     private double peso;           
@@ -18,9 +19,10 @@ public class PokemonDTO {
     public PokemonDTO() {
     }
 
-    public PokemonDTO(int id, String nombre, double altura, double peso, int experienciaBase,
+    public PokemonDTO(int id, String generacion,String nombre, double altura, double peso, int experienciaBase,
             List<String> tipos, List<String> habilidades, Map<String, Integer> estadisticas, String imagen) {
         this.id = id;
+        this.generacion=generacion;
         this.nombre = nombre;
         this.altura = altura;
         this.peso = peso;
@@ -102,4 +104,12 @@ public class PokemonDTO {
     public void setImagen(String imagen) {
         this.imagen = imagen;
     }
+
+	public String getGeneracion() {
+		return generacion;
+	}
+
+	public void setGeneracion(String generacion) {
+		this.generacion = generacion;
+	}
 }
