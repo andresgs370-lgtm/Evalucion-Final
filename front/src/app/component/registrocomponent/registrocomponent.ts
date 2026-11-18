@@ -6,4 +6,7 @@ import { Component } from '@angular/core';
   styleUrl: './registrocomponent.css',
   templateUrl: './registrocomponent.html',
 })
-export class Registrocomponent {}
+export class Registrocomponent {
+  mostrarPassword: boolean = false;
+  mostrarConfirmarPassword: boolean = false;
+}

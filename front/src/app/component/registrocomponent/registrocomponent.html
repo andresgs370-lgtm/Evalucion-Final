@@ -1,4 +1,4 @@
-<section class="hero-plantilla">
+<section class="hero-plantilla" xmlns="http://www.w3.org/1999/html">
   <div class="container">
     <h1 class="display-4">Registrase</h1>
   </div>
@@ -10,10 +10,26 @@
     <div class="row g-4 justify-content-center">
       <div class="col-md-4">
         <div class="tarjeta-plantilla w3-card-4 mb-4 ">
-          <label class="form-label" for="texto">Usuario</label>
-          <input type="text" class="form-control" id="texto" placeholder="Escribe tu nombre">
-          <label class="form-label" for="texto">Contraseña</label>
-          <input type="text" class="form-control" id="texto" placeholder="Escribe tu Contraseña">
+          <label class="form-label" for="texto">Nombres</label>
+          <input type="text" class="form-control" id="texto" placeholder="Escriba sus nombre">
+          <label class="form-label" for="texto">Apellidos</label>
+          <input type="text" class="form-control" id="texto" placeholder="Escriba sus apellidos">
+          <label class="form-label" for="texto">Edad</label>
+          <input type="text" class="form-control" id="texto" placeholder="Escribe su edad">
+          <label class="form-label" for="texto">Numero</label>
+          <input type="text" class="form-control" id="texto" placeholder="Escribe su numero">
+          <label class="form-label" for="password">Contraseña</label>
+          <div class="input-group">
+            <input [type]="mostrarPassword ? 'text' : 'password'" class="form-control" id="password" placeholder="Ingrese la contraseña">
+            <button class="btn btn-outline-secondary" type="button" (click)="mostrarPassword = !mostrarPassword"> {{ mostrarPassword ? 'Ocultar contraseña' : 'Mostrar contraseña' }}
+            </button>
+          </div>
+            <label class="form-label" for="password">Confirmar contraseña</label>
+          <label class="form-label" for="confirmarPassword"> Confirmar contraseña </label>
+          <div class="input-group">
+            <input [type]="mostrarConfirmarPassword ? 'text' : 'password'" class="form-control" id="confirmarPassword" placeholder="Confirme su contraseña"> <button class="btn btn-outline-secondary" type="button" (click)="mostrarConfirmarPassword = !mostrarConfirmarPassword"> {{ mostrarConfirmarPassword ? 'Ocultar contraseña' : 'Mostrar contraseña' }}
+            </button>
+          </div>
           <label class="form-label" for="texto">Rol</label>
           <input type="text" class="form-control" id="texto" placeholder="Usuario o Admin">
           <button type="button" class="btn-solid theme-success d-block mx-auto mt-3">Registro</button>
