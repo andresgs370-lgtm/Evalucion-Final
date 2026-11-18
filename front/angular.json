@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "pre-parcial": {
+    "tiendafront": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -66,10 +66,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "pre-parcial:build:production"
+              "buildTarget": "tiendafront:build:production"
             },
             "development": {
-              "buildTarget": "pre-parcial:build:development"
+              "buildTarget": "tiendafront:build:development"
             }
           },
           "defaultConfiguration": "development"

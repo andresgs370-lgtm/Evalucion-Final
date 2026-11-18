@@ -1,32 +1,24 @@
-<section class="hero-plantilla">
-  <div class="container">
-    <h1 class="display-4">Iniciar seccion </h1>
-    <p class="lead">Ingresa la informacion que se le solicita.</p>
-  </div>
-</section>
-
-<section id="servicios" class="seccion-plantilla">
-  <div class="container">
-    <h2 class="text-center mb-5">Ingrese correo previamente registrado </h2>
-    <div class="row g-4 justify-content-center">
-      <div class="col-md-4">
-        <div class="tarjeta-plantilla w3-card-4 mb-4 ">
-          <label class="form-label" for="texto">Correo</label>
-          <input type="text" class="form-control" id="texto" placeholder="ejemplo@gmail.com">
-          <label class="form-label" for="password">Contraseña</label>
-          <div class="input-group">
-            <input [type]="mostrarPassword ? 'text' : 'password'" class="form-control" id="password" placeholder="Ingrese la contraseña">
-            <button class="btn btn-outline-secondary" type="button" (click)="mostrarPassword = !mostrarPassword"> {{ mostrarPassword ? 'Ocultar contraseña' : 'Mostrar contraseña' }}
-            </button>
-          </div>
-          <button type="button" class="btn-solid theme-success d-block mx-auto mt-3">iNGRESAR</button>
+<div class="row justify-content-center">
+  <div class="col-md-4">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h3 class="text-center mb-3">Iniciar sesión</h3>
+        <label class="form-label" for="usuario">Usuario</label>
+        <input id="usuario" type="text" class="form-control mb-2" [(ngModel)]="username" placeholder="admin o user">
+        <label class="form-label" for="password">Contraseña</label>
+        <div class="input-group mb-3">
+          <input id="password" [type]="mostrarPassword ? 'text' : 'password'" class="form-control"
+                 [(ngModel)]="password" (keyup.enter)="ingresar()">
+          <button class="btn btn-outline-secondary" type="button" (click)="mostrarPassword = !mostrarPassword">
+            {{ mostrarPassword ? 'Ocultar' : 'Ver' }}
+          </button>
         </div>
+        <button class="btn btn-success w-100" (click)="ingresar()">Ingresar</button>
+        @if (mensaje) {
+          <div class="alert alert-danger mt-3 mb-0">{{ mensaje }}</div>
+        }
+        <p class="text-muted small mt-3 mb-0">Admin: admin / 1234567890 &nbsp;|&nbsp; Cliente: user / user123</p>
       </div>
     </div>
   </div>
-</section>
-<section id="nosotros" class="seccion-plantilla bg-white">
-  <div class="container">
-  </div>
-</section>
-
+</div>
