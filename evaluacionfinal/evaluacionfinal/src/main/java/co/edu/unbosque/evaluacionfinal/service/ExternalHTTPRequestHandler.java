@@ -30,10 +30,9 @@ public class ExternalHTTPRequestHandler {
     private static final Gson GSON = new GsonBuilder().create();
     private static final Gson GSON_PRETTY = new GsonBuilder().setLenient().setPrettyPrinting().create();
 
-  
     private static final String API_KEY_ENV = "EXTERNAL_API_KEY";
 
-    public String doGet(String url) {
+    public static String doGet(String url) {
         HttpRequest request = HttpRequest.newBuilder()
                 .GET()
                 .uri(URI.create(url))
@@ -59,7 +58,7 @@ public class ExternalHTTPRequestHandler {
         return response.body();
     }
 
-    // ---------- Métodos estáticos (versión de tu rama) ----------
+    // ---------- Métodos estáticos ----------
     private static HttpResponse<String> send(HttpRequest request) {
         try {
             return HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString());
@@ -123,3 +122,10 @@ public class ExternalHTTPRequestHandler {
                 .POST(HttpRequest.BodyPublishers.ofString(json)).build());
         validarExito(response);
         return prettyPrintUsingGson(response.body());
+    }
+
+    public static String prettyPrintUsingGson(String uglyJson) {
+        JsonElement jsonElement = JsonParser.parseString(uglyJson);
+        return GSON_PRETTY.toJson(jsonElement);
+    }
+}
