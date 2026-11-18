@@ -19,23 +19,19 @@ public class CountryService {
 
     private static final String URL_API = "https://restcountries.com/v3.1/name/";
 
-    // Instancia del manejador HTTP (doGet no es estático)
     private final ExternalHTTPRequestHandler httpHandler = new ExternalHTTPRequestHandler();
 
     public CountryDTO buscarPais(String nombre) throws Exception {
 
-        // Validar que no esté vacío
         if (nombre == null || nombre.trim().isEmpty()) {
             throw new IllegalArgumentException("Debe ingresar un país");
         }
 
-        // Construir la URL
         String nombreCodificado = URLEncoder.encode(nombre.trim(), StandardCharsets.UTF_8)
                 .replace("+", "%20");
 
         String url = URL_API + nombreCodificado + "?fullText=true";
 
-        // Consumir la API (CORREGIDO: se llama sobre la instancia, no sobre la clase)
         String respuesta = httpHandler.doGet(url);
 
         if (respuesta == null) {

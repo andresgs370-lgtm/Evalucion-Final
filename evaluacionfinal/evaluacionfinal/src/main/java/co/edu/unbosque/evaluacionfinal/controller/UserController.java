@@ -37,9 +37,6 @@ public class UserController {
 	public UserController() {
 	}
 
-	// JWT Authentication and Authorization is required for all endpoints
-	// Endpoints /getall, /count, /exists/*, /getbyid/* are accessible to users with ROLE_USER or ROLE_ADMIN
-	// All other endpoints require ROLE_ADMIN
 
 	@PostMapping(path = "/createjson", consumes = MediaType.APPLICATION_JSON_VALUE)
 	ResponseEntity<String> createNewWithJSON(@RequestBody UserDTO newUser) {

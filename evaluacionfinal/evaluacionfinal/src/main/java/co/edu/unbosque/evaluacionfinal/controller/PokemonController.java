@@ -21,8 +21,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RequestMapping("/external/pokemon")
 @CrossOrigin(origins = "*")
-@Tag(name = "PokeAPI", description = "Consulta de pokémon usando la PokeAPI externa")
-@Tag(name = "PokeAPI", description = "Consulta de pokémon usando la PokeAPI externa")
+@Tag(name = "PokeAPI", description = "Consulta de pokémon ")
+@Tag(name = "PokeAPI", description = "Consulta de pokémon ")
 @SecurityRequirement(name = "bearerAuth")
 public class PokemonController {
 
