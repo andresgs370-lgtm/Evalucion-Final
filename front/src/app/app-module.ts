@@ -9,7 +9,6 @@ import { Paginaprincipalcomponent } from './component/paginaprincipalcomponent/p
 import { Footercomponent } from './component/footercomponent/footercomponent';
 import { Registrocomponent } from './component/registrocomponent/registrocomponent';
 import { Logincomponent } from './component/logincomponent/logincomponent';
-import { Pokemonservice } from './services/pokemonservice';
 import { Registroservice } from './services/registroservice';
 import { Tiendacomponent } from './component/tiendacomponent/tiendacomponent';
 
