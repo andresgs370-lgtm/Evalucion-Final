@@ -5,9 +5,10 @@ import { App } from './app';
 import { Navbarcomponent } from './component/navbarcomponent/navbarcomponent';
 import { Paginaprincipalcomponent } from './component/paginaprincipalcomponent/paginaprincipalcomponent';
 import { Footercomponent } from './component/footercomponent/footercomponent';
+import { Pokemoncomponent } from './component/pokemoncomponent/pokemoncomponent';
 
 @NgModule({
-  declarations: [App, Navbarcomponent, Paginaprincipalcomponent, Footercomponent],
+  declarations: [App, Navbarcomponent, Paginaprincipalcomponent, Footercomponent, Pokemoncomponent],
   imports: [BrowserModule, AppRoutingModule],
   providers: [provideBrowserGlobalErrorListeners()],
   bootstrap: [App],
