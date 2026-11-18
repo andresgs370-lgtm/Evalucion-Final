@@ -7,6 +7,8 @@ import { Paginaprincipalcomponent } from './component/paginaprincipalcomponent/p
 import { Footercomponent } from './component/footercomponent/footercomponent';
 import { Pokemoncomponent } from './component/pokemoncomponent/pokemoncomponent';
 import { Registrocomponent } from './component/registrocomponent/registrocomponent';
+import { Logincomponent } from './component/logincomponent/logincomponent';
+import { Paiscomponent } from './component/paiscomponent/paiscomponent';
 
 @NgModule({
   declarations: [
@@ -16,6 +18,8 @@ import { Registrocomponent } from './component/registrocomponent/registrocompone
     Footercomponent,
     Pokemoncomponent,
     Registrocomponent,
+    Logincomponent,
+    Paiscomponent,
   ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [provideBrowserGlobalErrorListeners()],
